@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 
 public class ChatGPTExample {
-    private static final String API_KEY = "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"; // Replace with your actual API key
+    private static final String API_KEY = "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"; // Replace with your actual API key
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static void main(String[] args) {
