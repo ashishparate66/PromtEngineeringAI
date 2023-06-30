@@ -1,0 +1,98 @@
+package practice;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ChatGPTApplication {
+    private static final String API_KEY = "YOUR_API_KEY";
+    private static final String API_ENDPOINT = "https://api.openai.com/v1/engines/davinci-codex/completions";
+
+    public static void main(String[] args) {
+        try {
+            String initialMessage = "Hello, ChatGPT!"; // Initial prompt for the conversation
+
+            while (true) {
+                String userMessage = getUserInput();
+
+                if (userMessage.equalsIgnoreCase("exit")) {
+                    System.out.println("Exiting the chat application...");
+                    break;
+                }
+
+                String response = getChatGPTResponse(initialMessage + " " + userMessage);
+                displayChatGPTResponse(response);
+
+                // Set the latest response as the initial message for the next iteration
+                initialMessage = response;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String getUserInput() throws IOException {
+        System.out.print("User: ");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        return reader.readLine();
+    }
+
+    private static String getChatGPTResponse(String message) throws IOException {
+        URL url = new URL(API_ENDPOINT);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+
+        String requestData = "{\"prompt\": \"" + message + "\", \"max_tokens\": 50}"; // Adjust parameters as needed
+
+        connection.setDoOutput(true);
+        try (OutputStream outputStream = connection.getOutputStream()) {
+            byte[] input = requestData.getBytes("utf-8");
+            outputStream.write(input, 0, input.length);
+        }
+
+        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                return response.toString();
+            }
+        } else {
+            System.out.println("Request failed with response code: " + connection.getResponseCode());
+        }
+
+        return null;
+    }
+
+    private static void displayChatGPTResponse(String response) {
+        if (response != null) {
+            // Extract and display the generated text from the response
+            String generatedText = extractGeneratedText(response);
+            System.out.println("ChatGPT: " + generatedText);
+        }
+    }
+
+    private static String extractGeneratedText(String response) {
+        // Parse the response JSON and extract the generated text
+        // Adjust this method based on the JSON structure of the API response
+        // This example assumes the generated text is in the 'choices' field of the JSON response
+        // Modify accordingly if the structure changes
+        // Note: This is a basic approach and may not cover all scenarios
+        response = response.trim();
+        if (response.startsWith("{\"choices\":")) {
+            int startIndex = response.indexOf("\"text\":\"") + 8;
+            int endIndex = response.indexOf("\"}],");
+            if (startIndex != -1 && endIndex != -1) {
+                return response.substring(startIndex, endIndex);
+            }
+        }
+        return "";
+    }
+}

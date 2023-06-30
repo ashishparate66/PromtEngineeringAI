@@ -5,21 +5,13 @@ print("=============================================")
 
 #Quetion 2
 integer_var = 10
-
 float_var = 3.14
-
 string_var = "Hello, World!"
-
 boolean_var = True
-
 list_var = [1, 2, 3, 4, 5]
-
 tuple_var = (6, 7, 8, 9, 10)
-
 dictionary_var = {"name": "John", "age": 25, "city": "New York"}
-
 set_var = {1, 2, 3, 4, 5}
-
 print("Type of integer_var:", type(integer_var), ", value:", integer_var)
 print("Type of float_var:", type(float_var), ", value:", float_var)
 print("Type of string_var:", type(string_var), ", value:", string_var)

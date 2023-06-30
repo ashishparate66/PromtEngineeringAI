@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ChatGPTExample {
+    public static void main(String[] args) {
+        try {
+            String message = "Hello, ChatGPT!";
+
+            // Set up the API request
+            String apiKey = "YOUR_API_KEY"; // Replace with your actual API key
+            String apiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Authorization", "Bearer " + apiKey);
+            conn.setDoOutput(true);
+
+            // Create the request payload
+            String payload = "{\"prompt\": \"" + message + "\", \"max_tokens\": 50}";
+
+            // Send the request
+            OutputStream os = conn.getOutputStream();
+            os.write(payload.getBytes());
+            os.flush();
+
+            // Read the response
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+            br.close();
+
+            // Parse the response
+            String jsonResponse = response.toString();
+            System.out.println(jsonResponse);
+
+            // Close the connection
+            conn.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
