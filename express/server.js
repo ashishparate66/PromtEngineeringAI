@@ -1,41 +1,37 @@
 const express = require('express');
-const OpenAI = require('openai');
+const axios = require('axios');
 require('dotenv').config();
+// const cors = require('cors')
+
 
 const app = express();
-const port = process.env.PORT || 5000;
-
-// Set up the OpenAI API client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
-
-// API endpoint for generating shayari
-app.get('/generate-shayari', async (req, res) => {
-  const { keyword } = req.query;
-
+// app.use(cors())
+app.get('/shayari', async (req, res) => {
   try {
-    // Generate shayari using ChatGPT
-    const response = await openai.complete({
-      engine: 'davinci',
-      prompt: `Write a shayari about ${keyword}`,
-      maxTokens: 50,
+    const keyword = req.query.keyword;
+    const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
+      prompt: `Shayari about ${keyword}`,
+      max_tokens: 120,
       temperature: 0.7,
-      n: 1,
-      stop: '\n',
+      n: 1
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
     });
 
-    const shayari = response.choices[0].text.trim();
+    const shayari = response.data.choices[0].text.trim();
     res.json({ shayari });
   } catch (error) {
-    console.error('Error generating shayari:', error);
-    res.status(500).json({ error: 'Failed to generate shayari' });
+    console.error('Error:', error.response?.data || error.message);
+    res.status(500).json({ error: error });
   }
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
