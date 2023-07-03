@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Read Key-Value Pairs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #c5ed25;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #f33232;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #191616;
+        }
+        
+        th {
+            background-color: #6b9aeb;
+            font-weight: bold;
+        }
+        
+        p {
+            color: #14ae33;
+        }
+        
+        .actions {
+            margin-top: 20px;
+        }
+        
+        .actions a {
+            margin-right: 10px;
+            color: #555;
+            text-decoration: none;
+        }
+        
+        .actions a:hover {
+            color: #db229d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Read Key-Value Pairs</h1>
+    {% if data %}
+        <table>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+            {% for key, value in data.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No data found.</p>
+    {% endif %}
+    <div class="actions">
+        <a href="/create">Create</a>
+        <a href="/update">Update</a>
+        <a href="/delete">Delete</a>
+    </div>
+</body>
+</html>
