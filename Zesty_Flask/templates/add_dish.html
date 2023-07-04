@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zesty Zomato - Add Dish</title>
+</head>
+<body>
+    <h1>Add Dish</h1>
+    <form method="POST" action="/add-dish">
+        <label for="dish_id">Dish ID:</label>
+        <input type="text" id="dish_id" name="dish_id"><br><br>
+        
+        <label for="dish_name">Dish Name:</label>
+        <input type="text" id="dish_name" name="dish_name"><br><br>
+        
+        <label for="dish_price">Dish Price:</label>
+        <input type="number" id="dish_price" name="dish_price"><br><br>
+        
+        <input type="submit" value="Add Dish">
+    </form>
+    <a href="/menu">Back to Menu</a>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zesty Zomato - Menu</title>
+</head>
+<body>
+    <h1>Menu</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Availability</th>
+        </tr>
+        {% for dish in menu %}
+        <tr>
+            <td>{{ dish.id }}</td>
+            <td>{{ dish.name }}</td>
+            <td>${{ dish.price }}</td>
+            <td>{{ 'Available' if dish.availability else 'Not Available' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/add-dish">Add Dish</a>
+    <a href="/remove-dish">Remove Dish</a>
+    <a href="/update-availability">Update Availability</a>
+    <a href="/take-order">Take Order</a>
+    <a href="/update-order-status">Update Order Status</a>
+    <a href="/review-orders">Review Orders</a>
+    <a href="/exit">Exit</a>
+</body>
+</html>

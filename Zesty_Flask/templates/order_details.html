@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zesty Zomato - Order Details</title>
+</head>
+<body>
+    <h1>Order Details</h1>
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Dish IDs</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.dish_ids }}</td>
+            <td>{{ order.status }}</td>
+        </tr>
+    </table>
+    <h2>Update Order Status</h2>
+    <form action="/update_order_status/{{ order.id }}" method="POST">
+        <label for="new_status">New Status:</label>
+        <input type="text" id="new_status" name="new_status" required><br>
+        <input type="submit" value="Update Status">
+    </form>
+</body>
+</html>

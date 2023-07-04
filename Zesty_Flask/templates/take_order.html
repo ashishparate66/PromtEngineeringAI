@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zesty Zomato - Take Order</title>
+</head>
+<body>
+    <h1>Take Order</h1>
+    <form method="POST" action="/take-order">
+        <label for="customer_name">Customer Name:</label>
+        <input type="text" id="customer_name" name="customer_name"><br><br>
+        
+        <label for="dish_ids">Dish IDs (comma-separated):</label>
+        <input type="text" id="dish_ids" name="dish_ids"><br><br>
+        
+        <input type="submit" value="Take Order">
+    </form>
+    <a href="/menu">Back to Menu</a>
+</body>
+</html>
